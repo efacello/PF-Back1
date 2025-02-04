@@ -7,30 +7,29 @@ const productManager = new ProductManager();
 router.get("/", async (req, res) => {
   try {
     const { page = 1, limit = 10, sort = 'asc', query = '', category = '' } = req.query;
-    // Convertimos page y limit a enteros para evitar errores
     const pageNum = parseInt(page, 10) || 1;
     const limitNum = parseInt(limit, 10) || 10;
 
-    // Construcción del filtro de búsqueda
+    // construcción del filtro de búsqueda
     let filter = {};
 
     if (category) {
-      filter.category = category; // Filtra exactamente por la categoría proporcionada
+      filter.category = category; 
     }
 
     if (query) {
-      filter.title = new RegExp(query, 'i'); // Filtra por título sin distinguir mayúsculas/minúsculas
+      filter.title = new RegExp(query, 'i');
     }
 
-    // Configuración de ordenación por precio
+    // configuración de ordenación por precio
     const sortOptions = {};
     if (sort === 'asc') {
-        sortOptions.price = 1; // Ascendente
+        sortOptions.price = 1; 
     } else if (sort === 'desc') {
-        sortOptions.price = -1; // Descendente
+        sortOptions.price = -1; 
     }
 
-    // Obtener productos desde ProductManager con filtros, paginación y ordenación
+    // productos desde ProductManager con filtros, paginación y ordenación
     const productos = await productManager.getProducts({
       page: pageNum,
       limit: limitNum,
@@ -39,13 +38,12 @@ router.get("/", async (req, res) => {
       query
     });
 
-    // Agregar imágenes a los productos
+    // agregar imágenes a los productos
     const productosConImagen = productos.docs.map(producto => ({
       ...producto.toObject(),
       image: producto.thumbnails?.[0] || "default.jpg" // Primera imagen o una por defecto
     }));
 
-    // Construcción dinámica de los enlaces de paginación
     const buildUrl = (pageNum) => {
       const params = new URLSearchParams({ limit, page: pageNum, sort });
 
@@ -77,7 +75,6 @@ router.get("/", async (req, res) => {
     });
   }
 });
-
 
 // solo un producto por id:
 router.get("/:pid", async (req, res) => {
