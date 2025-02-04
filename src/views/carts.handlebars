@@ -1,0 +1,29 @@
+<h1 class="text-center my-4" style="color: #7a4d9c;">Carrito de Compras</h1>
+
+<!-- Mostrar el ID del carrito -->
+<p class="text-center">El ID del carrito es: <strong>{{cartId}}</strong></p>
+
+<div class="container">
+  <div class="row">
+    <!-- Si hay productos, se muestran, de lo contrario, se muestra un mensaje de carrito vacío -->
+    {{#if productos.length}}
+      {{#each productos}}
+        <div class="col-md-4 mb-4">
+          <div class="card" style="border: 1px solid #7a4d9c; background-color: #f0e6f7;">
+            <div class="card-body">
+              <h5 class="card-title" style="color: #6a2c92;">{{this.product.title}}</h5>
+              <p class="card-text"><strong>Cantidad:</strong> {{this.quantity}}</p>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    {{else}}
+      <!-- Si no hay productos, mostramos este mensaje -->
+      <p class="text-center">Este carrito está vacío.</p>
+    {{/if}}
+  </div>
+</div>
+
+<!-- Botón para finalizar la compra -->
+<button class="btn btn-violet d-block mx-auto mt-4">Finalizar Compra</button>
+

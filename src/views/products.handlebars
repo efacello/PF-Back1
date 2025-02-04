@@ -1,0 +1,31 @@
+<h1 class="text-center my-4" style="color: #7a4d9c;">Mis productos</h1>
+
+<div class="container">
+  <div class="row justify-content-center"> <!-- Usamos 'justify-content-center' para centrar las cards -->
+    {{#each productos}}
+      <div class="col-md-4 mb-4">
+        <div class="card" style="border: 1px solid #7a4d9c; background-color: #f0e6f7;">
+          <div class="card-body">
+            <h5 class="card-title" style="color: #6a2c92;">{{title}}</h5>
+            <p class="card-text">{{description}}</p>
+            <p><strong>Precio:</strong> ${{price}}</p>
+            <p><strong>Categoría:</strong> {{category}}</p>
+            <button class="btn btn-violet">Agregar al carrito</button>
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</div>
+
+<!-- Paginación -->
+<div class="pagination d-flex justify-content-center mt-4">
+  {{#if hasPrevPage}}
+    <a href="/products?page={{prevPage}}" class="btn btn-sm btn-outline-primary mx-2">Anterior</a> <!-- Botón de paginación -->
+  {{/if}}
+  <p class="mx-2" style="font-size: 1.1rem; color: #7a4d9c;">Página {{currentPage}} de {{totalPages}}</p>
+  {{#if hasNextPage}}
+    <a href="/products?page={{nextPage}}" class="btn btn-sm btn-outline-primary mx-2">Siguiente</a> <!-- Botón de paginación -->
+  {{/if}}
+</div>
+
