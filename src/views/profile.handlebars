@@ -1,0 +1,17 @@
+<h1 class="text-center my-4" style="color: #7a4d9c;">Bienvenido, {{user.first_name}}</h1>
+<p class="text-center mb-4">Estás logueado y puedes ver tu perfil con todos tus datos.</p>
+
+<div class="container col-md-6 text-center mb-4">
+    <h3 class="mb-3" style="color: #6a4c9c;">Detalles del usuario</h3>
+    <p><strong>Nombre:</strong> {{user.first_name}} {{user.last_name}}</p>
+    <p><strong>Email:</strong> {{user.email}}</p>
+    <p><strong>Edad:</strong> {{user.age}}</p>
+    <p><strong>Rol:</strong> {{user.role}}</p>
+</div>
+
+<!-- Botón de Cerrar Sesión -->
+<div class="container col-md-6 text-center">
+    <form action="/api/sessions/logout" method="POST">
+        <button type="submit" class="btn btn-lg" style="background-color: #7a4d9c; color: white; border: none; padding: 12px 25px; font-size: 18px; border-radius: 5px;">Cerrar Sesión</button>
+    </form>
+</div>
