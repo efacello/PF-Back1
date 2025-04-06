@@ -32,17 +32,20 @@ initializePassport();
 // Handlebars
 const hbs = exphbs.create({
     helpers: {
-        // Helper para multiplicar
         multiply: (a, b) => a * b
+    },
+    runtimeOptions: {
+        allowProtoPropertiesByDefault: true,
     }
 });
-app.engine("handlebars", exphbs.engine());
+
+app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
 app.set("views", path.join(process.cwd(), "./src/views"));
 
 // Rutas
 app.use("/api/products", productsRouter);
-app.use("/api/carts", cartsRouter);
+app.use ("/api/carts", cartsRouter);
 app.use("/api/sessions", sessionsRouter); 
 app.use("/", viewsRouter);
 
@@ -56,6 +59,7 @@ app.use((err, req, res, next) => {
     console.error("Error en el servidor:", err);
     res.status(500).json({ error: "Error interno del servidor" });
 });
+
 
 app.listen(PUERTO, () => {
     console.log(`Servidor escuchando en http://localhost:${PUERTO}`);

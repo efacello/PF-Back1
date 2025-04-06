@@ -1,6 +1,7 @@
 import express from "express";
 import ProductManager from "../managers/product-manager-db.js";
 import CartManager from "../managers/cart-manager-db.js";
+import authorization from "../middleware/authorization.js";
 
 const router = express.Router();
 const productManager = new ProductManager();
@@ -89,5 +90,8 @@ router.get("/login", (req, res) => {
   res.render("login"); 
 })
 
+router.get("/", authorization(['admin']), (req, res) => {
+  res.render("realtimeproducts"); 
+});
 
 export default router;
