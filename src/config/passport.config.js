@@ -19,21 +19,29 @@ const cookieExtractor = (req) => {
 // Estrategia Passport para JWT
 const initializePassport = () => {
     passport.use("current", new JWTStrategy({
-        jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),  
-        secretOrKey: "coderhouse",  
+        jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
+        secretOrKey: "coderhouse",
     }, async (jwt_payload, done) => {
         try {
-            // Buscar el usuario en la base de datos usando el id que viene en el JWT
-            const user = await User.findById(jwt_payload.id); 
-            if (!user) {
-                return done(null, false);  
+
+            // Verifica si el payload tiene la estructura esperada
+            if (!jwt_payload.user || !jwt_payload.user.id) {
+                return done(null, false, { message: "Token inválido" });
             }
-            // Si el usuario existe, lo pasamos al siguiente middleware
-            return done(null, user);  
+
+            // Buscar el usuario con el ID correcto
+            const user = await User.findById(jwt_payload.user.id);
+
+            if (!user) {
+                return done(null, false, { message: "Usuario no encontrado" });
+            }
+
+            return done(null, user);
         } catch (error) {
-            return done(error, false);  // En caso de error, pasamos el error
+            return done(error, false);
         }
     }));
-}
+};
+
 
 export default initializePassport;

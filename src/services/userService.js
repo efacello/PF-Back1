@@ -12,8 +12,12 @@ class UserService {
 
         if (!isValidPassword(password, user)) throw new Error("Contraseña incorrecta");
 
-        const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "1h" });
-
+        const token = jwt.sign(
+            { user: { id: user._id, role: user.role, email: user.email } }, 
+            JWT_SECRET, 
+            { expiresIn: "1h" }
+        );
+    
         return { token, user: new UserDTO(user) };
     }
 

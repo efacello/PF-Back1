@@ -11,7 +11,8 @@ router.get("/", (req, res) => {
   res.send("¡Bienvenidos a Lucerna!");
 });
 
-router.get("/products", async (req, res) => {
+// 🔹 Solo los usuarios pueden ver la vista de productos
+router.get("/products", authorization(["user"]), async (req, res) => {
   try {
     const { page = 1, limit = 2 } = req.query;
     const productos = await productManager.getProducts({
@@ -42,7 +43,8 @@ router.get("/products", async (req, res) => {
   }
 });
 
-router.get("/products/:pid", async (req, res) => {
+// 🔹 Solo los usuarios pueden ver el detalle de un producto
+router.get("/products/:pid", authorization(["user"]), async (req, res) => {
   const { pid } = req.params;
 
   try {
@@ -59,7 +61,8 @@ router.get("/products/:pid", async (req, res) => {
   }
 });
 
-router.get("/carts/:cid", async (req, res) => {
+// 🔹 Solo los usuarios pueden ver su carrito
+router.get("/carts/:cid", authorization(["user"]), async (req, res) => {
   const cartId = req.params.cid;
 
   try {
@@ -81,17 +84,18 @@ router.get("/carts/:cid", async (req, res) => {
   }
 });
 
-// se agrega en back II
+// 🔹 Rutas de autenticación
 router.get("/register", (req, res) => {
   res.render("register"); 
-})
+});
 
 router.get("/login", (req, res) => {
   res.render("login"); 
-})
+});
 
-router.get("/", authorization(['admin']), (req, res) => {
-  res.render("realtimeproducts"); 
+// 🔹 Solo los administradores pueden ver la vista realtimeproducts
+router.get("/realtimeproducts", authorization(["admin"]), (req, res) => {
+  res.render("realtimeproducts", { username: req.user.username });
 });
 
 export default router;

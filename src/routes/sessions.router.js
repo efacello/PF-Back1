@@ -10,10 +10,9 @@ router.post('/login', userController.login);
 // Ruta de registro
 router.post('/register', userController.register);
 
-// Ruta de deslogueo
 router.get('/logout', (req, res) => {
-  res.clearCookie("coderCookieToken"); 
-  res.redirect('/login'); 
+  res.clearCookie("coderCookieToken");
+  res.redirect('/login');
 });
 
 // Ruta para obtener los datos del usuario actual
